@@ -38,7 +38,14 @@ Repair Shop::getRepair(int i)
 
 void Shop::printRepair(int i)
 {
-	std::cout << repairs[i].getClient() + " " + repairs[i].getProblem() + " " + repairs[i].getSolution() << repairs[i].getTimeSpent() <<  repairs[i].getStatus() << std::endl;
+	std::string status;
+	if (repairs[i].getStatus()) {
+		status = "Completed";
+	}
+	else {
+		status = "Pending";
+	}
+	std::cout << repairs[i].getClient() + "\t" + repairs[i].getProblem() + "\t" + repairs[i].getSolution() << repairs[i].getTimeSpent() << "\t" <<  status << std::endl;
 }
 
 int Shop::getSize()

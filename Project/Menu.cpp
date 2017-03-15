@@ -139,6 +139,8 @@ void Menu::addTask()
 void Menu::printAll()
 {
 	system("cls");
+	std::cout << "Client name\tProblem description\tTime spent\tCompleted" << std::endl;
+	std::cout << "=================================================================" << std::endl;
 	for (int i = 0; i < shop.getSize(); i++) {
 		shop.printRepair(i);
 	}

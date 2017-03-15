@@ -73,6 +73,8 @@ void Menu::readKey()
 				moveDown();
 				break;
 			case VK_RETURN:
+				while (GetAsyncKeyState(VK_RETURN) & 0x8000 != 0);
+				FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 				handleEnter();
 				break;
 			default:

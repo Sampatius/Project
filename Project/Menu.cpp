@@ -12,18 +12,18 @@ Menu::~Menu()
 {
 }
 
-void Menu::moveUp()
+void Menu::moveUp(std::vector<std::string> *menu)
 {
 	position--;
 	if (position == -1) {
-		position = menuOptions.size()-1;
+		position = menu->size()-1;
 	}
 }
 
-void Menu::moveDown()
+void Menu::moveDown(std::vector<std::string> *menu)
 {
 	position++;
-	if (position == menuOptions.size()) {
+	if (position == menu->size()) {
 		position = 0;
 	}
 }
@@ -67,10 +67,10 @@ void Menu::readKey()
 		if ((event.EventType == KEY_EVENT) && !event.Event.KeyEvent.bKeyDown) {
 			switch (event.Event.KeyEvent.wVirtualKeyCode) {
 			case VK_UP:
-				moveUp();
+				moveUp(&menuOptions);
 				break;
 			case VK_DOWN:
-				moveDown();
+				moveDown(&menuOptions);
 				break;
 			case VK_RETURN:
 				while (GetAsyncKeyState(VK_RETURN) & 0x8000 != 0);
@@ -88,7 +88,7 @@ void Menu::menuLoop()
 {
 	while (loopTheMenu) {
 		system("cls");
-
+		
 		printMenu();
 
 		readKey();
@@ -136,6 +136,15 @@ void Menu::addTask()
 	std::cout << "Enter description of the problem: ";
 	std::getline (std::cin, problemDescription);
 	shop.addRepair(clientsName, problemDescription);
+}
+
+void Menu::repairsMenu()
+{
+	system("cls");
+	bool loop = true;
+	while (loop) {
+
+	}
 }
 
 void Menu::printAll()

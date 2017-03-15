@@ -8,8 +8,8 @@ public:
 	Menu();
 	~Menu();
 
-	void moveUp();
-	void moveDown();
+	void moveUp(std::vector<std::string> *menu);
+	void moveDown(std::vector<std::string> *menu);
 
 	void printMenu();
 	void readKey();
@@ -18,6 +18,7 @@ public:
 
 	void addTask();
 
+	void repairsMenu();
 	void printAll();
 
 private:

@@ -15,3 +15,8 @@ problemSolution(" "), timeSpent(0), status(false)
 Repair::~Repair()
 {
 }
+
+void Repair::addFix(std::string solution)
+{
+	problemSolution = solution;
+}

@@ -11,8 +11,10 @@ public:
 	void addRepair(std::string clientName, std::string problemDescription);
 	void clearRecords();
 	
-	Repair getRepair(std::string client);
-	Repair getRepair(int i);
+	Repair *getRepair(std::string client);
+	Repair *getRepair(int i);
+
+	void performFix(int i, std::string solution);
 
 	void printRepair(int i);
 	int getSize();

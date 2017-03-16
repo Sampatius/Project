@@ -22,18 +22,26 @@ void Shop::clearRecords()
 	repairs.clear();
 }
 
-Repair Shop::getRepair(std::string client)
+Repair *Shop::getRepair(std::string client)
 {
 	for (auto i : repairs) {
 		if (i.getClient().compare(client)) {
-			return i;
+			return &i;
+		}
+		else {
+			return nullptr;
 		}
 	}
 }
 
-Repair Shop::getRepair(int i)
+Repair *Shop::getRepair(int i)
 {
-	return repairs[i];
+	return &repairs[i];
+}
+
+void Shop::performFix(int i, std::string solution)
+{
+	repairs[i].addFix(solution);
 }
 
 void Shop::printRepair(int i)

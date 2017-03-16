@@ -15,6 +15,8 @@ public:
 	inline int getTimeSpent() { return timeSpent; }
 	inline bool getStatus() { return status; }
 
+	void addFix(std::string solution);
+
 private:
 	std::string clientName;
 	std::string problemDescription;

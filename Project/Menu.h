@@ -11,12 +11,14 @@ public:
 	void moveUp(std::vector<std::string> *menu);
 	void moveDown(std::vector<std::string> *menu);
 
-	void printMenu();
-	void readKey();
+	void printMenu(std::vector<std::string> menu);
+	int readKey(std::vector<std::string> *menu);
 	void menuLoop();
-	void handleEnter();
+	void handleEnter(int position);
 
 	void addTask();
+
+	void performFix(int position);
 
 	void repairsMenu();
 	void printAll();

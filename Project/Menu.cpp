@@ -28,7 +28,7 @@ void Menu::moveDown(std::vector<std::string> *menu)
 	}
 }
 
-void Menu::printMenu()
+void Menu::printMenu(std::vector<std::string> menu)
 {
 	system("cls");
 
@@ -36,19 +36,19 @@ void Menu::printMenu()
 
 	std::cout << "Main menu\n\n";
 
-	for (int i = 0; i < menuOptions.size(); i++) {
+	for (int i = 0; i < menu.size(); i++) {
 		if (i == position) {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-			std::cout << menuOptions[i] << std::endl;
+			std::cout << menu[i] << std::endl;
 		}
 		else {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			std::cout << menuOptions[i] << std::endl;
+			std::cout << menu[i] << std::endl;
 		}
 	}
 }
 
-void Menu::readKey()
+int Menu::readKey(std::vector<std::string> *menu)
 {
 	BOOL done = FALSE;
 	DWORD        mode;
@@ -61,21 +61,23 @@ void Menu::readKey()
 	SetConsoleMode(hstdin, 0);
 	
 	while (!done) {
-		printMenu();
 		DWORD count;
 		ReadConsoleInput(hstdin, &event, 1, &count);
 		if ((event.EventType == KEY_EVENT) && !event.Event.KeyEvent.bKeyDown) {
 			switch (event.Event.KeyEvent.wVirtualKeyCode) {
 			case VK_UP:
-				moveUp(&menuOptions);
+				moveUp(menu);
+				printMenu(*menu);
 				break;
 			case VK_DOWN:
-				moveDown(&menuOptions);
+				moveDown(menu);
+				printMenu(*menu);
 				break;
 			case VK_RETURN:
 				while (GetAsyncKeyState(VK_RETURN) & 0x8000 != 0);
 				FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
-				handleEnter();
+				return position;
+			case VK_ESCAPE:
 				break;
 			default:
 				done = TRUE;
@@ -86,16 +88,14 @@ void Menu::readKey()
 
 void Menu::menuLoop()
 {
+	printMenu(menuOptions);
 	while (loopTheMenu) {
-		system("cls");
-		
-		printMenu();
-
-		readKey();
+		handleEnter(readKey(&menuOptions));
+		printMenu(menuOptions);
 	}
 }
 
-void Menu::handleEnter()
+void Menu::handleEnter(int position)
 {
 	switch (position) {
 	case 0:
@@ -108,7 +108,7 @@ void Menu::handleEnter()
 		std::cout << "\n\nLoad repairs" << std::endl;
 		break;
 	case 3:
-		std::cout << "\n\nPerform fix" << std::endl;
+		repairsMenu();
 		break;
 	case 4:
 		std::cout << "\n\nTop 3" << std::endl;
@@ -117,7 +117,7 @@ void Menu::handleEnter()
 		printAll();
 		break;
 	case 6:
-		std::cout << "\n\nClear records" << std::endl;
+		shop.clearRecords();
 		break;
 	case 7:
 		std::cout << "\n\nExit" << std::endl;
@@ -138,13 +138,26 @@ void Menu::addTask()
 	shop.addRepair(clientsName, problemDescription);
 }
 
+void Menu::performFix(int position)
+{
+	std::string solution;
+	system("cls");
+	shop.printRepair(position);
+
+	std::cout << "Enter solution to the problem: ";
+	getline(std::cin, solution);
+	shop.performFix(position, solution);
+}
+
 void Menu::repairsMenu()
 {
-	system("cls");
-	bool loop = true;
-	while (loop) {
-
+	std::vector<std::string> repairsList;
+	for (int i = 0; i < shop.getSize(); i++) {
+		repairsList.push_back(shop.getRepair(i)->getClient() + " " + shop.getRepair(i)->getProblem());
 	}
+	position = 0;
+	printMenu(repairsList);
+	performFix(readKey(&repairsList));
 }
 
 void Menu::printAll()

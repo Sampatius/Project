@@ -15,7 +15,9 @@ public:
 	inline int getTimeSpent() { return timeSpent; }
 	inline bool getStatus() { return status; }
 
-	void addFix(std::string solution);
+	void addFix(std::string solution, int timeSpent_);
+
+	bool operator<(const Repair other) const;
 
 private:
 	std::string clientName;

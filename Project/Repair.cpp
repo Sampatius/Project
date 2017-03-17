@@ -16,7 +16,14 @@ Repair::~Repair()
 {
 }
 
-void Repair::addFix(std::string solution)
+void Repair::addFix(std::string solution, int timeSpent_)
 {
 	problemSolution = solution;
+	timeSpent = timeSpent_;
+	status = true;
+}
+
+bool Repair::operator<(const Repair other) const
+{
+	return status > other.status;
 }

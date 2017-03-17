@@ -140,13 +140,20 @@ void Menu::addTask()
 
 void Menu::performFix(int position)
 {
-	std::string solution;
+	std::string solution, timeSpent;
 	system("cls");
 	shop.printRepair(position);
 
 	std::cout << "Enter solution to the problem: ";
 	getline(std::cin, solution);
-	shop.performFix(position, solution);
+	std::cout << "Enter time spent in minutes (1-180): ";
+	getline(std::cin, timeSpent);
+	while (std::stoi(timeSpent) < 1 || std::stoi(timeSpent) > 180) {
+		std::cout << "Invalid value entered. Enter a value between 1-180: ";
+		getline(std::cin, timeSpent);
+		
+	}
+	shop.performFix(position, solution, std::stoi(timeSpent));
 }
 
 void Menu::repairsMenu()
@@ -155,9 +162,25 @@ void Menu::repairsMenu()
 	for (int i = 0; i < shop.getSize(); i++) {
 		repairsList.push_back(shop.getRepair(i)->getClient() + " " + shop.getRepair(i)->getProblem());
 	}
-	position = 0;
-	printMenu(repairsList);
-	performFix(readKey(&repairsList));
+	if (repairsList.size() == 0) {
+		std::cout << std::endl;
+		std::cout << "No repairs listed." << std::endl;
+		system("pause");
+	}
+	else {
+		position = 0;
+		printMenu(repairsList);
+		performFix(readKey(&repairsList));
+	}
+}
+
+void Menu::topThree()
+{
+	std::vector<int> topThree;
+	system("cls");
+	std::cout << "TOP 3 HARDEST CASES" << std::endl;
+	std::cout << "Client name\tProblem description\tTime spent\tCompleted" << std::endl;
+	std::cout << "=================================================================" << std::endl;
 }
 
 void Menu::printAll()
@@ -166,7 +189,7 @@ void Menu::printAll()
 	std::cout << "Client name\tProblem description\tTime spent\tCompleted" << std::endl;
 	std::cout << "=================================================================" << std::endl;
 	for (int i = 0; i < shop.getSize(); i++) {
-		shop.printRepair(i);
+		std::cout << shop.printRepair(i) << std::endl;
 	}
 	system("pause");
 }

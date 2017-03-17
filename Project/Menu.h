@@ -19,6 +19,7 @@ public:
 	void addTask();
 
 	void performFix(int position);
+	void topThree();
 
 	void repairsMenu();
 	void printAll();

@@ -1,6 +1,8 @@
 #pragma once
 #include "Repair.h"
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 class Shop
 {
@@ -14,9 +16,9 @@ public:
 	Repair *getRepair(std::string client);
 	Repair *getRepair(int i);
 
-	void performFix(int i, std::string solution);
+	void performFix(int i, std::string solution, int timeSpent);
 
-	void printRepair(int i);
+	std::string printRepair(int i);
 	int getSize();
 
 private:

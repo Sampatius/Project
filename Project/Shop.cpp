@@ -39,21 +39,23 @@ Repair *Shop::getRepair(int i)
 	return &repairs[i];
 }
 
-void Shop::performFix(int i, std::string solution)
+void Shop::performFix(int i, std::string solution, int timeSpent)
 {
-	repairs[i].addFix(solution);
+	repairs[i].addFix(solution, timeSpent);
 }
 
-void Shop::printRepair(int i)
+std::string Shop::printRepair(int i)
 {
-	std::string status;
+	std::sort(repairs.begin(), repairs.end());
+	std::string status, stringRepair;
 	if (repairs[i].getStatus()) {
 		status = "Completed";
 	}
 	else {
 		status = "Pending";
 	}
-	std::cout << repairs[i].getClient() + "\t" + repairs[i].getProblem() + "\t" + repairs[i].getSolution() << repairs[i].getTimeSpent() << "\t" <<  status << std::endl;
+	stringRepair = repairs[i].getClient() + "\t" + repairs[i].getProblem() + "\t" + repairs[i].getSolution() + "\t" + std::to_string(repairs[i].getTimeSpent()) + "\t" + status;
+	return stringRepair;
 }
 
 int Shop::getSize()

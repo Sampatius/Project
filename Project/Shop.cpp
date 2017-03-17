@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Shop.h"
+#include <iomanip>
 
 
 Shop::Shop()
@@ -44,7 +45,20 @@ void Shop::performFix(int i, std::string solution, int timeSpent)
 	repairs[i].addFix(solution, timeSpent);
 }
 
-std::string Shop::printRepair(int i)
+void Shop::topThree(int i)
+{
+	std::string status, returnString;
+	std::sort(repairs.begin(), repairs.end(), [](Repair& lhs, Repair& rhs) {return lhs.getTimeSpent() > rhs.getTimeSpent(); });
+	if (repairs[i].getStatus()) {
+		status = "Completed";
+	}
+	else {
+		status = "Pending";
+	}
+	std::cout << std::left << std::setw(20) << repairs[i].getClient() << std::setw(20) << std::to_string(repairs[i].getTimeSpent()) << std::setw(20) << status << std::endl;
+}
+
+void Shop::printRepair(int i)
 {
 	std::sort(repairs.begin(), repairs.end());
 	std::string status, stringRepair;
@@ -54,8 +68,7 @@ std::string Shop::printRepair(int i)
 	else {
 		status = "Pending";
 	}
-	stringRepair = repairs[i].getClient() + "\t" + repairs[i].getProblem() + "\t" + repairs[i].getSolution() + "\t" + std::to_string(repairs[i].getTimeSpent()) + "\t" + status;
-	return stringRepair;
+	std::cout  << std::left << std::setw(20) << repairs[i].getClient() << std::setw(20) << status << std::endl;
 }
 
 int Shop::getSize()

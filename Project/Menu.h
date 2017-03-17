@@ -1,6 +1,9 @@
 #pragma once
 #include "Shop.h"
 #include <Windows.h>
+#include <iomanip>
+
+#undef max
 
 class Menu
 {
@@ -11,7 +14,7 @@ public:
 	void moveUp(std::vector<std::string> *menu);
 	void moveDown(std::vector<std::string> *menu);
 
-	void printMenu(std::vector<std::string> menu);
+	void printMenu(std::vector<std::string> &menu);
 	int readKey(std::vector<std::string> *menu);
 	void menuLoop();
 	void handleEnter(int position);

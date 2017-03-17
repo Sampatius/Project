@@ -28,22 +28,22 @@ void Menu::moveDown(std::vector<std::string> *menu)
 	}
 }
 
-void Menu::printMenu(std::vector<std::string> menu)
+void Menu::printMenu(std::vector<std::string> &menu)
 {
 	system("cls");
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
-	std::cout << "Main menu\n\n";
+	std::cout << "RepairNator\n" << std::endl;
 
 	for (int i = 0; i < menu.size(); i++) {
 		if (i == position) {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-			std::cout << menu[i] << std::endl;
+			std::cout << std::left << std::setw(20) << menu[i] << std::endl;
 		}
 		else {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-			std::cout << menu[i] << std::endl;
+			std::cout << std::left << std::setw(20) << menu[i] << std::endl;
 		}
 	}
 }
@@ -111,7 +111,7 @@ void Menu::handleEnter(int position)
 		repairsMenu();
 		break;
 	case 4:
-		std::cout << "\n\nTop 3" << std::endl;
+		topThree();
 		break;
 	case 5:
 		printAll();
@@ -140,27 +140,44 @@ void Menu::addTask()
 
 void Menu::performFix(int position)
 {
-	std::string solution, timeSpent;
-	system("cls");
-	shop.printRepair(position);
-
-	std::cout << "Enter solution to the problem: ";
-	getline(std::cin, solution);
-	std::cout << "Enter time spent in minutes (1-180): ";
-	getline(std::cin, timeSpent);
-	while (std::stoi(timeSpent) < 1 || std::stoi(timeSpent) > 180) {
-		std::cout << "Invalid value entered. Enter a value between 1-180: ";
-		getline(std::cin, timeSpent);
-		
+	std::string solution;
+	int timeSpent;
+	if (shop.getRepair(position)->getStatus()) {
+		std::cout << "The problem has been solved." << std::endl;
+		system("pause");
 	}
-	shop.performFix(position, solution, std::stoi(timeSpent));
+	else {
+
+		system("cls");
+
+		std::cout << "The problem: " << shop.getRepair(position)->getProblem() << std::endl;
+
+		std::cout << "Enter solution to the problem: ";
+		getline(std::cin, solution);
+		std::cout << "Enter time spent in minutes (1-180): ";
+		std::cin >> timeSpent;
+		while (std::cin.fail() || timeSpent < 1 || timeSpent > 180) {
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Bad entry.  Enter a value between (1-180): ";
+			std::cin >> timeSpent;
+		}
+		shop.performFix(position, solution, timeSpent);
+	}
 }
 
 void Menu::repairsMenu()
 {
 	std::vector<std::string> repairsList;
+	std::string status;
 	for (int i = 0; i < shop.getSize(); i++) {
-		repairsList.push_back(shop.getRepair(i)->getClient() + " " + shop.getRepair(i)->getProblem());
+		if (shop.getRepair(i)->getStatus()) {
+			status = "Completed";
+		}
+		else {
+			status = "Pending";
+		}
+		repairsList.push_back(shop.getRepair(i)->getClient() + " " + shop.getRepair(i)->getProblem() + " " + status);
 	}
 	if (repairsList.size() == 0) {
 		std::cout << std::endl;
@@ -176,20 +193,23 @@ void Menu::repairsMenu()
 
 void Menu::topThree()
 {
-	std::vector<int> topThree;
 	system("cls");
 	std::cout << "TOP 3 HARDEST CASES" << std::endl;
-	std::cout << "Client name\tProblem description\tTime spent\tCompleted" << std::endl;
-	std::cout << "=================================================================" << std::endl;
+	std::cout << "Client name\tCompleted" << std::endl;
+	std::cout << "=============================" << std::endl;
+	for (int i = 0; i < 3; i++) {
+		shop.topThree(i);
+	}
+	system("pause");
 }
 
 void Menu::printAll()
 {
 	system("cls");
-	std::cout << "Client name\tProblem description\tTime spent\tCompleted" << std::endl;
-	std::cout << "=================================================================" << std::endl;
+	std::cout << std::left << std::setw(20) << "Client name" << std::setw(20) << "Completed" << std::endl;
+	std::cout << "=============================" << std::endl;
 	for (int i = 0; i < shop.getSize(); i++) {
-		std::cout << shop.printRepair(i) << std::endl;
+		shop.printRepair(i);
 	}
 	system("pause");
 }

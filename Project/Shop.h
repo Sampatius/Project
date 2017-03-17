@@ -18,7 +18,9 @@ public:
 
 	void performFix(int i, std::string solution, int timeSpent);
 
-	std::string printRepair(int i);
+	void topThree(int i);
+
+	void printRepair(int i);
 	int getSize();
 
 private:

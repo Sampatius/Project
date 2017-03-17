@@ -17,7 +17,7 @@ public:
 
 	void addFix(std::string solution, int timeSpent_);
 
-	bool operator<(const Repair other) const;
+	bool operator<(const Repair &other) const;
 
 private:
 	std::string clientName;

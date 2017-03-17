@@ -23,7 +23,7 @@ void Repair::addFix(std::string solution, int timeSpent_)
 	status = true;
 }
 
-bool Repair::operator<(const Repair other) const
+bool Repair::operator<(const Repair &other) const
 {
 	return status > other.status;
 }

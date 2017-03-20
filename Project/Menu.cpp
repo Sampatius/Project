@@ -205,8 +205,8 @@ void Menu::topThree()
 {
 	system("cls");
 	std::cout << "TOP 3 HARDEST CASES" << std::endl;
-	std::cout << "Client name\tCompleted" << std::endl;
-	std::cout << "=============================" << std::endl;
+	std::cout << "Client name\tTime spent \tCompleted" << std::endl;
+	std::cout << "=========================================" << std::endl;
 	if (shop.getSize() < 3) {
 		for (int i = 0; i < shop.getSize(); i++) {
 			shop.topThree(i);

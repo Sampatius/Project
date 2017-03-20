@@ -27,6 +27,9 @@ public:
 	void repairsMenu();
 	void printAll();
 
+	void saveRepairsToFile();
+	void loadRepairsFromFile();
+
 private:
 	int position = 0;
 	std::vector<std::string> menuOptions;

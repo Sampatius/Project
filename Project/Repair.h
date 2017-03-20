@@ -7,6 +7,7 @@ class Repair
 public:
 	Repair();
 	Repair(std::string clientName_, std::string problemDescription_);
+	Repair(std::string clientName_, std::string problemDescription_, std::string problemSolution_, int timeSpent_, bool status_);
 	~Repair();
 
 	inline std::string getClient() { return clientName; }
@@ -17,7 +18,14 @@ public:
 
 	void addFix(std::string solution, int timeSpent_);
 
+	void setClientName(std::string clientName_);
+	void setProblemDescription(std::string problemDescription_);
+	void setProblemSolution(std::string problemSolution_);
+	void setTimeSpent(int timeSpent_);
+	void setStatus(bool status_);
+
 	bool operator<(const Repair &other) const;
+	operator std::string() const;
 
 private:
 	std::string clientName;

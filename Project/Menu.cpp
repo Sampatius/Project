@@ -12,6 +12,7 @@ Menu::~Menu()
 {
 }
 
+//Move cursor up
 void Menu::moveUp(std::vector<std::string> *menu)
 {
 	position--;
@@ -20,6 +21,7 @@ void Menu::moveUp(std::vector<std::string> *menu)
 	}
 }
 
+//Move cursor down
 void Menu::moveDown(std::vector<std::string> *menu)
 {
 	position++;
@@ -28,6 +30,7 @@ void Menu::moveDown(std::vector<std::string> *menu)
 	}
 }
 
+//Print the menu we currently have active and highligh the current position of cursor
 void Menu::printMenu(std::vector<std::string> &menu)
 {
 	system("cls");
@@ -48,6 +51,7 @@ void Menu::printMenu(std::vector<std::string> &menu)
 	}
 }
 
+//Handle arrow key inputs and Enter
 int Menu::readKey(std::vector<std::string> *menu)
 {
 	BOOL done = FALSE;
@@ -86,6 +90,7 @@ int Menu::readKey(std::vector<std::string> *menu)
 	}
 }
 
+//Main menu loop
 void Menu::menuLoop()
 {
 	printMenu(menuOptions);
@@ -95,6 +100,7 @@ void Menu::menuLoop()
 	}
 }
 
+//Main menu's switch case for selecting options
 void Menu::handleEnter(int position)
 {
 	switch (position) {
@@ -102,10 +108,10 @@ void Menu::handleEnter(int position)
 		addTask();
 		break;
 	case 1:
-		std::cout << "\n\nSave repairs" << std::endl;
+		saveRepairsToFile();
 		break;
 	case 2:
-		std::cout << "\n\nLoad repairs" << std::endl;
+		loadRepairsFromFile();
 		break;
 	case 3:
 		repairsMenu();
@@ -125,6 +131,7 @@ void Menu::handleEnter(int position)
 	}
 }
 
+//Add new repair task
 void Menu::addTask()
 {
 	std::string clientsName, problemDescription;
@@ -138,6 +145,7 @@ void Menu::addTask()
 	shop.addRepair(clientsName, problemDescription);
 }
 
+//Perform fix to selected repair task, if selected repair is already completed inform user
 void Menu::performFix(int position)
 {
 	std::string solution;
@@ -166,6 +174,7 @@ void Menu::performFix(int position)
 	}
 }
 
+//Create vector of current repairs with necessary informations and print is as a new menu to select from
 void Menu::repairsMenu()
 {
 	std::vector<std::string> repairsList;
@@ -191,18 +200,27 @@ void Menu::repairsMenu()
 	}
 }
 
+//Print top three repairs that have taken the longest to solve
 void Menu::topThree()
 {
 	system("cls");
 	std::cout << "TOP 3 HARDEST CASES" << std::endl;
 	std::cout << "Client name\tCompleted" << std::endl;
 	std::cout << "=============================" << std::endl;
-	for (int i = 0; i < 3; i++) {
-		shop.topThree(i);
+	if (shop.getSize() < 3) {
+		for (int i = 0; i < shop.getSize(); i++) {
+			shop.topThree(i);
+		}
+	}
+	else {
+		for (int i = 0; i < 3; i++) {
+			shop.topThree(i);
+		}
 	}
 	system("pause");
 }
 
+//Print all repairs
 void Menu::printAll()
 {
 	system("cls");
@@ -212,4 +230,19 @@ void Menu::printAll()
 		shop.printRepair(i);
 	}
 	system("pause");
+}
+
+void Menu::saveRepairsToFile()
+{
+	std::ofstream fl;
+	for (int i = 0; i < shop.getSize(); i++) {
+		fl << shop;
+	}
+}
+
+void Menu::loadRepairsFromFile()
+{
+	shop.clearRecords();
+	std::ifstream fl;
+	fl >> shop;
 }

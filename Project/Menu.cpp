@@ -126,8 +126,7 @@ void Menu::handleEnter(int position)
 		shop.clearRecords();
 		break;
 	case 7:
-		std::cout << "\n\nExit" << std::endl;
-		break;
+		exit(0);
 	}
 }
 
@@ -205,8 +204,8 @@ void Menu::topThree()
 {
 	system("cls");
 	std::cout << "TOP 3 HARDEST CASES" << std::endl;
-	std::cout << "Client name\tTime spent \tCompleted" << std::endl;
-	std::cout << "=========================================" << std::endl;
+	std::cout << std::left << std::setw(20) << "Client name" << std::setw(20) << "Time spent" << std::setw(20) << "Completed" << std::endl;
+	std::cout << "=================================================" << std::endl;
 	if (shop.getSize() < 3) {
 		for (int i = 0; i < shop.getSize(); i++) {
 			shop.topThree(i);

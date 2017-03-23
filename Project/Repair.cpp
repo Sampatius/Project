@@ -28,31 +28,6 @@ void Repair::addFix(std::string solution, int timeSpent_)
 	status = true;
 }
 
-void Repair::setClientName(std::string clientName_)
-{
-	clientName = clientName_;
-}
-
-void Repair::setProblemDescription(std::string problemDescription_)
-{
-	problemDescription = problemDescription_;
-}
-
-void Repair::setProblemSolution(std::string problemSolution_)
-{
-	problemSolution = problemSolution_;
-}
-
-void Repair::setTimeSpent(int timeSpent_)
-{
-	timeSpent = timeSpent_;
-}
-
-void Repair::setStatus(bool status_)
-{
-	status = status_;
-}
-
 bool Repair::operator<(const Repair &other) const
 {
 	return status > other.status;

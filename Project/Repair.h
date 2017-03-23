@@ -18,12 +18,6 @@ public:
 
 	void addFix(std::string solution, int timeSpent_);
 
-	void setClientName(std::string clientName_);
-	void setProblemDescription(std::string problemDescription_);
-	void setProblemSolution(std::string problemSolution_);
-	void setTimeSpent(int timeSpent_);
-	void setStatus(bool status_);
-
 	bool operator<(const Repair &other) const;
 	operator std::string() const;
 

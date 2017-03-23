@@ -138,9 +138,27 @@ void Menu::addTask()
 	system("cls");
 	std::cout << "Enter name of the client: ";
 	std::getline (std::cin, clientsName);
+	while (clientsName.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_ ") != std::string::npos) {
+		if (clientsName.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_ ") != std::string::npos) {
+			std::cout << "Invalid input, use letters a-z. Try again: ";
+			std::getline(std::cin, clientsName);
+		}
+		else {
+			break;
+		}
+	}
 	std::cout << std::endl;
 	std::cout << "Enter description of the problem: ";
 	std::getline (std::cin, problemDescription);
+	while (problemDescription.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_ ") != std::string::npos) {
+		if (problemDescription.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_ ") != std::string::npos) {
+			std::cout << "Invalid input, use letters a-z. Try again: ";
+			std::getline(std::cin, problemDescription);
+		}
+		else {
+			break;
+		}
+	}
 	shop.addRepair(clientsName, problemDescription);
 }
 
@@ -161,12 +179,21 @@ void Menu::performFix(int position)
 
 		std::cout << "Enter solution to the problem: ";
 		getline(std::cin, solution);
+		while (solution.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_ ") != std::string::npos) {
+			std::cout << "Invalid input, use letters a-z. Try again: ";
+			std::getline(std::cin, solution);
+			if (solution.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_ ") != std::string::npos) {
+			}
+			else {
+				break;
+			}
+		}
 		std::cout << "Enter time spent in minutes (1-180): ";
 		std::cin >> timeSpent;
 		while (std::cin.fail() || timeSpent < 1 || timeSpent > 180) {
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Bad entry.  Enter a value between (1-180): ";
+			std::cout << "Bad entry. Enter a value between (1-180): ";
 			std::cin >> timeSpent;
 		}
 		shop.performFix(position, solution, timeSpent);
@@ -185,7 +212,7 @@ void Menu::repairsMenu()
 		else {
 			status = "Pending";
 		}
-		repairsList.push_back(shop.getRepair(i)->getClient() + " " + shop.getRepair(i)->getProblem() + " " + status);
+		repairsList.push_back(shop.getRepair(i)->getClient() + "\t" + status);
 	}
 	if (repairsList.size() == 0) {
 		std::cout << std::endl;
@@ -204,8 +231,8 @@ void Menu::topThree()
 {
 	system("cls");
 	std::cout << "TOP 3 HARDEST CASES" << std::endl;
-	std::cout << std::left << std::setw(20) << "Client name" << std::setw(20) << "Time spent" << std::setw(20) << "Completed" << std::endl;
-	std::cout << "=================================================" << std::endl;
+	std::cout << std::left << std::setw(40) << "Client name" << std::setw(20) << "Time spent (min)" <<  "Completed" << std::endl;
+	std::cout << "=====================================================================" << std::endl;
 	if (shop.getSize() < 3) {
 		for (int i = 0; i < shop.getSize(); i++) {
 			shop.topThree(i);
@@ -223,8 +250,8 @@ void Menu::topThree()
 void Menu::printAll()
 {
 	system("cls");
-	std::cout << std::left << std::setw(20) << "Client name" << std::setw(20) << "Completed" << std::endl;
-	std::cout << "=============================" << std::endl;
+	std::cout << std::left << std::setw(40) << "Client name" << "Completed" << std::endl;
+	std::cout << "=================================================" << std::endl;
 	for (int i = 0; i < shop.getSize(); i++) {
 		shop.printRepair(i);
 	}

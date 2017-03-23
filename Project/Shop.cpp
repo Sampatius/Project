@@ -56,7 +56,7 @@ void Shop::topThree(int i)
 		else {
 			status = "Pending";
 		}
-		std::cout << std::left << std::setw(20) << repairs[i].getClient() << std::setw(20) << std::to_string(repairs[i].getTimeSpent()) << std::setw(20) << status << std::endl;
+		std::cout << std::left << std::setw(40) << repairs[i].getClient() << std::setw(20) << std::to_string(repairs[i].getTimeSpent()) << status << std::endl;
 	}
 }
 
@@ -71,7 +71,7 @@ void Shop::printRepair(int i)
 	else {
 		status = "Pending";
 	}
-	std::cout  << std::left << std::setw(20) << repairs[i].getClient() << std::setw(20) << status << std::endl;
+	std::cout  << std::left << std::setw(40) << repairs[i].getClient() << status << std::endl;
 }
 
 //Returns the size of the repairs vector
@@ -80,7 +80,7 @@ int Shop::getSize()
 	return repairs.size();
 }
 
-//Write in to a file
+// Read from a file
 std::istream & operator>>(std::ifstream & in, Shop& shop)
 {
 	std::string line;
@@ -88,9 +88,8 @@ std::istream & operator>>(std::ifstream & in, Shop& shop)
 	int timeSpent = 0;
 	bool status = false;
 	std::fstream f;
-	f.open("test.txt");
+	f.open("Reports.txt");
 	if (f.fail()) {
-		// throw error here
 		std::cout << "Error: Could not open file." << std::endl;
 		return in;
 	}
@@ -103,17 +102,22 @@ std::istream & operator>>(std::ifstream & in, Shop& shop)
 		std::getline(iss, std::to_string(timeSpent), ':');
 		std::getline(iss, std::to_string(status), ':');
 		Repair repair(clientName, problemDescription, problemSolution, timeSpent, status);
-		shop.initRepairs(repair);
+		if (clientName == "") {
+			// If clientName is empty, do nothing.
+		}
+		else {
+			shop.initRepairs(repair);
+		}
 	}
 	f.close();
 	return in;
 }
 
-//Read from a file
+// Write to a file
 std::ostream & operator<<(std::ostream & out, Shop& shop)
 {
 	std::ofstream f;
-	f.open("test.txt");
+	f.open("Reports.txt");
 	for (int i = 0; i < shop.getRepairs().size(); i++) {
 		f << shop.getRepair(i)->getClient() + ":" + shop.getRepair(i)->getProblem() + ":" + shop.getRepair(i)->getSolution() + ":" + std::to_string(shop.getRepair(i)->getTimeSpent()) + ":" + std::to_string(shop.getRepair(i)->getStatus()) << std::endl;
 	}

@@ -1,0 +1,4 @@
+Microsoft:Problems with the software: :0:0
+Neste Oy:Trouble with the SAP-applications: :0:0
+HUS Labs:Lab systems are lagging: :0:0
+GE Healthcare:Trouble with the equipment: :0:0

@@ -7,6 +7,8 @@
 
 int main()
 {
+	SetConsoleOutputCP(1252);
+	SetConsoleCP(1252);
 	Menu menu = Menu();
 	menu.menuLoop();
     return 0;

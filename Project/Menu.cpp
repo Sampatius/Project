@@ -81,8 +81,6 @@ int Menu::readKey(std::vector<std::string> *menu)
 				while (GetAsyncKeyState(VK_RETURN) & 0x8000 != 0);
 				FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 				return position;
-			case VK_ESCAPE:
-				break;
 			default:
 				done = TRUE;
 			}
@@ -149,7 +147,7 @@ void Menu::performFix(int position)
 {
 	std::string solution;
 	int timeSpent;
-	if (shop.getRepair(position)->getStatus()) {
+	if (shop.getRepair(position)->getSolution() != " ") {
 		std::cout << "The problem has been solved." << std::endl;
 		system("pause");
 	}
@@ -179,13 +177,9 @@ void Menu::repairsMenu()
 	std::vector<std::string> repairsList;
 	std::string status;
 	for (int i = 0; i < shop.getSize(); i++) {
-		if (shop.getRepair(i)->getStatus()) {
-			status = "Completed";
+		if (shop.getRepair(i)->getSolution() == " ") {
+			repairsList.push_back(shop.getRepair(i)->getClient());
 		}
-		else {
-			status = "Pending";
-		}
-		repairsList.push_back(shop.getRepair(i)->getClient() + "\t" + status);
 	}
 	if (repairsList.size() == 0) {
 		std::cout << std::endl;
@@ -204,8 +198,8 @@ void Menu::topThree()
 {
 	system("cls");
 	std::cout << "TOP 3 HARDEST CASES" << std::endl;
-	std::cout << std::left << std::setw(40) << "Client name" << std::setw(20) << "Time spent (min)" <<  "Completed" << std::endl;
-	std::cout << "=====================================================================" << std::endl;
+	std::cout << std::left << std::setw(40) << "Client name" << std::setw(40) << "Problem description" << std::setw(40) << "Problem solution" << std::setw(20) << "Status" << std::setw(10) << "Time spent (minutes)" << std::endl;
+	std::cout << "================================================================================================================================================================" << std::endl;
 	if (shop.getSize() < 3) {
 		for (int i = 0; i < shop.getSize(); i++) {
 			shop.topThree(i);
@@ -216,19 +210,21 @@ void Menu::topThree()
 			shop.topThree(i);
 		}
 	}
-	system("pause");
+	std::cout << "Press Enter to continue.";
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 //Print all repairs
 void Menu::printAll()
 {
 	system("cls");
-	std::cout << std::left << std::setw(40) << "Client name" << "Completed" << std::endl;
-	std::cout << "=================================================" << std::endl;
+	std::cout << std::left << std::setw(40) << "Client name" << std::setw(40) << "Problem description" << std::setw(40) << "Problem solution" << std::setw(20) << "Status" << std::setw(10) << "Time spent (minutes)" << std::endl;
+	std::cout << "================================================================================================================================================================" << std::endl;
 	for (int i = 0; i < shop.getSize(); i++) {
 		shop.printRepair(i);
 	}
-	system("pause");
+	std::cout << "Press Enter to continue.";
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void Menu::saveRepairsToFile()

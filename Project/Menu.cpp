@@ -175,11 +175,16 @@ void Menu::performFix(int position)
 void Menu::repairsMenu()
 {
 	std::vector<std::string> repairsList;
-	std::string status;
+	std::string tempRepair;
 	for (int i = 0; i < shop.getSize(); i++) {
 		if (shop.getRepair(i)->getSolution() == " ") {
-			repairsList.push_back(shop.getRepair(i)->getClient());
+			tempRepair = "[ ] ";
 		}
+		else {
+			tempRepair = "[x] ";
+		}
+		tempRepair.append(shop.getRepair(i)->getClient());
+		repairsList.push_back(tempRepair);
 	}
 	if (repairsList.size() == 0) {
 		std::cout << std::endl;
@@ -224,20 +229,25 @@ void Menu::printAll()
 		shop.printRepair(i);
 	}
 	std::cout << "Press Enter to continue.";
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::string dummyString;
+	std::getline(std::cin, dummyString);
 }
 
 void Menu::saveRepairsToFile()
 {
 	std::ofstream fl;
+	fl.open("Reports.txt", std::ios::out);
 	for (int i = 0; i < shop.getSize(); i++) {
 		fl << shop;
 	}
+	fl.close();
 }
 
 void Menu::loadRepairsFromFile()
 {
 	shop.clearRecords();
 	std::ifstream fl;
+	fl.open("Reports.txt", std::ios::in);
 	fl >> shop;
+	fl.close();
 }

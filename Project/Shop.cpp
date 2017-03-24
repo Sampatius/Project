@@ -70,18 +70,14 @@ int Shop::getSize()
 // Read from a file
 std::istream & operator>>(std::ifstream & in, Shop& shop)
 {
-	std::ifstream f;
 	std::string line;
 	std::string clientName, problemDescription, problemSolution, status;
 	int timeSpent = 0;
-	
-	
-	f.open("Reports.txt", std::ios::in);
-	if (f.fail()) {
+	if (in.fail()) {
 		std::cout << "Error: Could not open file." << std::endl;
 		return in;
 	}
-	while (std::getline(f, line)) {
+	while (std::getline(in, line)) {
 		std::stringstream lineStream(line);
 		std::string data;
 		std::getline(lineStream, clientName, ':');
@@ -98,18 +94,14 @@ std::istream & operator>>(std::ifstream & in, Shop& shop)
 		}
 		
 	}
-	f.close();
 	return in;
 }
 
 // Write to a file
 std::ostream & operator<<(std::ostream & out, Shop& shop)
 {
-	std::ofstream f;
-	f.open("Reports.txt");
 	for (int i = 0; i < shop.getRepairs().size(); i++) {
-		f << shop.getRepair(i)->getClient() + ":" + shop.getRepair(i)->getProblem() + ":" + shop.getRepair(i)->getSolution() + ":" + shop.getRepair(i)->getStatus() + ":" + std::to_string(shop.getRepair(i)->getTimeSpent()) << std::endl;
+		out << shop.getRepair(i)->getClient() + ":" + shop.getRepair(i)->getProblem() + ":" + shop.getRepair(i)->getSolution() + ":" + shop.getRepair(i)->getStatus() + ":" + std::to_string(shop.getRepair(i)->getTimeSpent()) << std::endl;
 	}
-	f.close();
 	return out;
 }
